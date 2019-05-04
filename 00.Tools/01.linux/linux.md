@@ -9,7 +9,7 @@
     下载安装包lrzsz-0.12.20.tar.gz : http://www.ohse.de/uwe/software/lrzsz.html
 
     二、软件安装
-
+cd 
     首先通过sftp工具把安 装文件上传到tmp目录下.
 
      # cd tmp

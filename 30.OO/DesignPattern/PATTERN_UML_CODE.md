@@ -107,6 +107,69 @@ end note
 ```
 
 
+## 4.抽象工厂模式
+```text
+@startuml
+skinparam classAttributeIconSize 0
+interface AbstractFactory {
+    + createProductA() : ProductA
+    + createProductB() : ProductB
+}
+class ConcreteFactory1{
+    + createProductA() : ProductA
+    + createProductB() : ProductB
+}
+AbstractFactory <|.. ConcreteFactory1
+class ConcreteFactory2{
+    + createProductA() : ProductA
+    + createProductB() : ProductB
+}
+AbstractFactory <|.. ConcreteFactory2
+
+interface ProductA {
+    + show() : void
+}
+class ConcreteProductA1 {
+  + show() : void
+}
+class ConcreteProductA2 {
+  + show() : void
+}
+ProductA <|.. ConcreteProductA1
+ProductA <|.. ConcreteProductA2
+
+interface ProductB {
+    + show() : void
+}
+class ConcreteProductB1 {
+  + show() : void
+}
+class ConcreteProductB2 {
+  + show() : void
+}
+
+ProductB <|.. ConcreteProductB1
+ProductB <|.. ConcreteProductB2
+
+ConcreteProductA1 <-- ConcreteFactory1
+ConcreteProductB1 <-- ConcreteFactory1
+
+ConcreteProductA2 <-- ConcreteFactory2
+ConcreteProductB2 <-- ConcreteFactory2
+
+class TestClient {
+
+}
+AbstractFactory <-- TestClient
+ProductA <-- TestClient
+ProductB <-- TestClient
+
+@enduml
+```
+
+
+
+
 
 
 

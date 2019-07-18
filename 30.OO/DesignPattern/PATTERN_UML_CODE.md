@@ -34,6 +34,78 @@ note bottom  of Singleton
 end note
 ```
 
+## 2.简单工厂模式
+
+```text
+@startuml
+
+interface Product {
+    + show() : void
+}
+
+class ConcreteProductA {
+  + show() : void
+}
+Product <|.. ConcreteProductA
+class ConcreteProductB {
+  + show() : void
+}
+Product <|.. ConcreteProductB
+
+class SimpleFactory{
+    + createProduct() : Product
+}
+ConcreteProductA <-- SimpleFactory
+ConcreteProductB <-- SimpleFactory
+
+note bottom  of SimpleFactory
+  <b>public Product createProduct(int type) {  </b>
+  <b>     if (type == 1) { </b>
+  <b>           return new ConcreteProductA();  </b>
+  <b>     } else if (type == 2) { </b>
+  <b>           return new ConcreteProductB(); </b>
+  <b>     } </b>
+  <b>} </b>
+end note
+
+@enduml
+```
+
+## 3.工厂方法模式
+
+```text
+@startuml
+
+interface Product {
+    + show() : void
+}
+
+interface FactoryMethod {
+    + createProduct() : Product
+}
+
+class ConcreteProduct {
+  + show() : void
+}
+Product <|.. ConcreteProduct
+
+class ConcreteFactory {
+   + createProduct() : Product
+}
+FactoryMethod <|.. ConcreteFactory
+
+ConcreteProduct <-- ConcreteFactory
+
+note bottom  of ConcreteFactory
+  <b>public Product createProduct() {  </b>
+  
+  <b>    return new ConcreteProduct(); </b>
+  <b>} </b>
+end note
+
+@enduml
+```
+
 
 
 

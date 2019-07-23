@@ -172,7 +172,38 @@ ProductB <-- TestClient
 @enduml
 ```
 
+## 5.原型模式
 
+<div align="center"> <img src="images/15.prototype.png" width="5200px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Cloneable {
+
+}
+
+class ConcretePrototype{
+    + clone() : Object
+}
+Cloneable <|.. ConcretePrototype
+
+class TestPrototype{
+    + main() : void
+}
+ConcretePrototype<-- TestPrototype
+
+note bottom  of TestPrototype
+  <b>public static void main(String[] args) throws CloneNotSupportedException {  </b>
+  
+  <b>    ConcretePrototype prototype = new ConcretePrototype(); </b>
+  <b>    ConcretePrototype clone = (ConcretePrototype) prototype.clone(); </b>
+  <b>} </b>
+end note
+
+@enduml
+```
 
 
 

@@ -35,6 +35,7 @@ end note
 ```
 
 ## 2.简单工厂模式
+<div align="center"> <img src="images/12.simpleFactory.png" width="360px"> </div><br>
 
 ```text
 @startuml
@@ -73,6 +74,8 @@ end note
 
 ## 3.工厂方法模式
 
+<div align="center"> <img src="images/13.factoryMethod.png" width="280px"> </div><br>
+
 ```text
 @startuml
 
@@ -106,8 +109,10 @@ end note
 @enduml
 ```
 
-
 ## 4.抽象工厂模式
+
+<div align="center"> <img src="images/14.abstractFactory.png" width="600px"> </div><br>
+
 ```text
 @startuml
 skinparam classAttributeIconSize 0

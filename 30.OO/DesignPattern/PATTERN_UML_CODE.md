@@ -205,6 +205,50 @@ end note
 @enduml
 ```
 
+## 6.建造者模式
+
+<div align="center"> <img src="images/16.builder.png" width="360px"> </div><br>
+
+
+```text
+@startuml
+skinparam classAttributeIconSize 0
+
+class Product {
+    - partA : String
+    - partB : String
+    - partC : String
+    + setPartA(String partA) : void
+    + setPartB(String partB) : void
+    + setPartC(String partC) : void
+    + show() : void
+}
+
+abstract class Builder {
+    # product : Product
+    + {abstract} buildPartA() : void
+    + {abstract} buildPartB() : void
+    + {abstract} buildPartC() : void
+    + getResult() : Product
+}
+Builder o-- Product
+
+class ConcreteBuilder {
+    + buildPartA() : void
+    + buildPartB() : void
+    + buildPartC() : void
+}
+Builder <|-- ConcreteBuilder
+
+class Director {
+    - builder : Builder
+    + Director(Builder builder)
+    + buildProduct() : Product
+}
+Director o-- Builder
+
+@enduml
+```
 
 
 

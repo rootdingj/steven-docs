@@ -252,5 +252,38 @@ Director o-- Builder
 
 
 
+## 7.代理模式
+
+<div align="center"> <img src="images/17.proxy.png" width="360px"> </div><br>
+
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Subject {
+    + request() : void
+}
+
+class RealSubject{
+     + request() : void
+}
+Subject <|.. RealSubject
+
+class Proxy{
+     - realSubject : RealSubject
+     + request() : void
+     + preRequest() : void
+     + postRequest() : void
+}
+Subject <|.. Proxy
+RealSubject <-- Proxy
+
+@enduml
+```
+
+
+
+
 
 

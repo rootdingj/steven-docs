@@ -2,7 +2,7 @@ PATTERN_UML_CODE
 ====================
 `PATTERN_UML_CODE` 记录了设计模式章节的 UML 模型图相关代码。
 
-## 1.单例模式
+## 11.单例模式
 
 <div align="center"> <img src="images/11.singleton.png" width="280px"> </div><br>
 
@@ -34,7 +34,7 @@ note bottom  of Singleton
 end note
 ```
 
-## 2.简单工厂模式
+## 12.简单工厂模式
 <div align="center"> <img src="images/12.simpleFactory.png" width="360px"> </div><br>
 
 ```text
@@ -72,7 +72,7 @@ end note
 @enduml
 ```
 
-## 3.工厂方法模式
+## 13.工厂方法模式
 
 <div align="center"> <img src="images/13.factoryMethod.png" width="280px"> </div><br>
 
@@ -109,7 +109,7 @@ end note
 @enduml
 ```
 
-## 4.抽象工厂模式
+## 14.抽象工厂模式
 
 <div align="center"> <img src="images/14.abstractFactory.png" width="600px"> </div><br>
 
@@ -172,7 +172,7 @@ ProductB <-- TestClient
 @enduml
 ```
 
-## 5.原型模式
+## 15.原型模式
 
 <div align="center"> <img src="images/15.prototype.png" width="5200px"> </div><br>
 
@@ -205,7 +205,7 @@ end note
 @enduml
 ```
 
-## 6.建造者模式
+## 16.建造者模式
 
 <div align="center"> <img src="images/16.builder.png" width="360px"> </div><br>
 
@@ -252,9 +252,9 @@ Director o-- Builder
 
 
 
-## 7.代理模式
+## 21.代理模式
 
-<div align="center"> <img src="images/17.proxy.png" width="360px"> </div><br>
+<div align="center"> <img src="images/21.proxy.png" width="360px"> </div><br>
 
 
 ```text
@@ -282,8 +282,132 @@ RealSubject <-- Proxy
 @enduml
 ```
 
+## 22.适配器模式
 
+<div align="center"> <img src="images/18.classAdapter.png" width="520px"> </div><br>
 
+```text
 
+@startuml
+skinparam classAttributeIconSize 0
+interface Target {
+    + request() : void
+}
 
+class Adaptee{
+     + concreteRequest() : void
+}
 
+class ClassAdapter{
+     + request() : void
+}
+Target <|.. ClassAdapter
+Adaptee <|-- ClassAdapter
+note bottom  of ClassAdapter
+  <b>public void request() { </b>
+  
+  <b>    concreteRequest(); </b>
+  <b>} </b>
+end note
+
+class TestClassAdapter{
+     + main() : void
+}
+Target <.. TestClassAdapter
+note bottom  of TestClassAdapter
+  <b>public static void main(String[] args) { </b>
+  
+  <b>    Target target = new ClassAdapter(); </b>
+  <b>    target.request(); </b>
+  <b>} </b>
+end note
+@enduml
+```
+
+<div align="center"> <img src="images/22.objectAdapter.png" width="520px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Target {
+    + request() : void
+}
+
+class Adaptee{
+     + concreteRequest() : void
+}
+
+class ObjectAdapter{
+     - adaptee : Adaptee
+     + ObjectAdapter(Adaptee adaptee) 
+     + request() : void
+}
+Target <|.. ObjectAdapter
+Adaptee <--  ObjectAdapter
+note bottom  of ObjectAdapter
+  <b>public void request() { </b>
+  
+  <b>    adaptee.concreteRequest(); </b>
+  <b>} </b>
+end note
+
+class TestObjectAdapter{
+     + main() : void
+}
+Target <.. TestObjectAdapter
+note bottom  of TestObjectAdapter
+  <b>public static void main(String[] args) { </b>
+  
+  <b>    Target target = new ObjectAdapter(new Adaptee()); </b>
+  <b>    target.request(); </b>
+  <b>} </b>
+end note
+@enduml
+```
+
+## 23.外观模式
+
+<div align="center"> <img src="images/23.facade.png" width="520px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+
+class SubSystemA{
+    + oprationA() : void
+}
+class SubSystemB{
+    + oprationB() : void
+}
+class SubSystemC{
+    + oprationC() : void
+}
+
+class Facade{
+    - subA : SubSystemA
+    - subB : SubSystemB
+    - subC : SubSystemC
+     + wrapOpration() : void
+}
+note bottom  of Facade
+  <b>public void wrapOpration() { </b>
+  
+  <b>    subA.oprationA();</b>
+  <b>    subA.oprationB();</b>
+  <b>    subA.oprationC();</b>
+  <b>} </b>
+end note
+
+SubSystemA <--  Facade
+SubSystemB <--  Facade
+SubSystemC <--  Facade
+
+class TestClient{
+
+}
+Facade <.. TestClient
+
+@enduml
+```

@@ -547,3 +547,42 @@ end note
 
 @enduml
 ```
+
+## 26.桥接模式
+
+<div align="center"> <img src="images/26.bridge.png" width="520px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Implementor {
+    + operationImpl() : void
+}
+
+class ConcreteImplementorA {
+    + operationImpl() : void
+}
+Implementor <|.. ConcreteImplementorA
+
+class ConcreteImplementorB {
+    + operationImpl() : void
+}
+Implementor <|.. ConcreteImplementorB
+
+abstract class Abstraction{
+    # imple : Implementor
+    # Abstraction(Implementor imple)
+    + abstract operation() : void
+}
+Abstraction o-- Implementor
+
+class RefinedAbstraction{
+    + RefinedAbstraction(Implementor imple)
+    + abstract operation() : void
+}
+Abstraction <|-- RefinedAbstraction
+
+@enduml
+```
+

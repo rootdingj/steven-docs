@@ -411,3 +411,139 @@ Facade <.. TestClient
 
 @enduml
 ```
+
+## 24.装饰者模式
+
+<div align="center"> <img src="images/24.decorator.png" width="520px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Component {
+    + operation() : void
+}
+
+class ConcreteComponent{
+    + ConcreteComponent() 
+    + operation() : void
+}
+Component <|.. ConcreteComponent
+
+class Decorator{
+    - component : Component
+    + Decorator(Component component) 
+    + operation() : void
+}
+Component <|.. Decorator
+Decorator "1" *-- "1" Component
+ 
+class ConcreteDecoratorA{
+    + ConcreteDecoratorA(Component component) 
+    + operation() : void
+    + addBehaviorA() : void
+}
+Decorator <|-- ConcreteDecoratorA
+note bottom  of ConcreteDecoratorA
+  <b>public void operation() { </b>
+  <b>    // 调用被装饰者方法，保留了被装饰者的功能 </b>
+  <b>    super.operation(); </b>
+  <b>    // 在被装饰者的基础上扩展 addBehaviorA() 功能 </b>
+  <b>    addBehaviorA(); </b>
+  <b>} </b>
+end note
+
+class ConcreteDecoratorB{
+    + ConcreteDecoratorB(Component component) 
+    + operation() : void
+    + addBehaviorB() : void
+}
+Decorator <|-- ConcreteDecoratorB
+
+@enduml
+```
+
+## 25.组合模式
+
+<div align="center"> <img src="images/25.open-composite.png" width="520px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Component {
+    + add(Component com) : void
+    + remove(Component com) : void
+    + getChild(int i) : Component
+    + operation() : void
+}
+
+class Leaf{
+    - name : String
+    + Leaf(String name)
+    + add(Component com) : void
+    + remove(Component com) : void
+    + getChild(int i) : Component
+    + operation() : void
+}
+Component <|.. Leaf
+
+class Composite{
+    - children : List<Component>
+    + add(Component com) : void
+    + remove(Component com) : void
+    + getChild(int i) : Component
+    + operation() : void
+}
+Component <|.. Composite
+Composite o-- Component
+note bottom  of Composite
+  <b>public void operation() { </b>
+  
+  <b>     for (Component c : children) { </b>
+  <b>         c.operation();</b>
+  <b>     }</b>
+  <b>} </b>
+end note
+
+@enduml
+
+```
+
+<div align="center"> <img src="images/25.safety-composite.png" width="520px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Component {
+    + operation() : void
+}
+
+class Leaf{
+    - name : String
+    + Leaf(String name)
+    + operation() : void
+}
+Component <|.. Leaf
+
+class Composite{
+    - children : List<Component>
+    + add(Component com) : void
+    + remove(Component com) : void
+    + getChild(int i) : Component
+    + operation() : void
+}
+Component <|.. Composite
+Composite o-- Component
+note bottom  of Composite
+  <b>public void operation() { </b>
+  
+  <b>     for (Component c : children) { </b>
+  <b>         c.operation();</b>
+  <b>     }</b>
+  <b>} </b>
+end note
+
+@enduml
+```

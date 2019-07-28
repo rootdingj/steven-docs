@@ -586,3 +586,57 @@ Abstraction <|-- RefinedAbstraction
 @enduml
 ```
 
+## 27.享元模式
+
+<div align="center"> <img src="images/27.flyweight.png" width="520px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Flyweight {
+    + operation(String state) : void
+}
+
+class ConcreteFlyweight {
+    - intrinsicState : String
+    + ConcreteFlyweight(String intrinsicState)
+    + operation(String extrinsicState) : void
+}
+Flyweight <|.. ConcreteFlyweight
+
+class TestClient{
+}
+ConcreteFlyweight <.. TestClient
+FlyweightFactory <.. TestClient
+
+class FlyweightFactory {
+    - cachePool : HashMap<String, Flyweight> 
+    + getFlyweight(String intrinsicState) : Flyweight
+}
+FlyweightFactory o-- Flyweight
+note bottom  of FlyweightFactory
+  <b>public Flyweight getFlyweight(String intrinsicState) { </b>
+  
+  <b>    Flyweight flyweight = null; </b>
+  <b>    if (cachePool.containsKey(intrinsicState)) { </b>
+  <b>        flyweight = cachePool.get(intrinsicState); </b>
+  <b>        System.out.println("已存在享元对象直接获取，内部状态为" + intrinsicState); </b>
+  <b>    } else { </b>
+  <b>        flyweight = new ConcreteFlyweight(intrinsicState); </b>
+  <b>        cachePool.put(intrinsicState, flyweight); </b>
+  <b>    } </b>
+  <b>    return flyweight; </b>
+  <b>} </b>
+end note
+
+@enduml
+```
+
+## 31.模板方法模式
+
+<div align="center"> <img src="images/31.templateMethod.png" width="520px"> </div><br>
+
+
+
+

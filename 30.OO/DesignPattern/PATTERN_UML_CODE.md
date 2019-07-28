@@ -704,9 +704,87 @@ end note
 @enduml
 ```
 
-## 33.命令模式
+## 33.状态模式
+<div align="center"> <img src="images/33.state.png" width="480px"> </div><br>
 
-<div align="center"> <img src="images/33.command.png" width="520px"> </div><br>
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Status {
+    + handle() : void
+}
+
+class ConcreteStatusA {
+    + handle() : void
+}
+Status <|.. ConcreteStatusA
+
+class ConcreteStatusB {
+    + handle() : void
+}
+Status <|.. ConcreteStatusB
+
+class Context {
+    - status : Status
+    + setstatus(Status status) : void
+    + operation() : void
+}
+Context o-- Status
+note bottom  of Context
+  <b>public void operation() { </b>
+  
+  <b>     status.handle(); </b>
+  <b>} </b>
+end note
+
+@enduml
+```
+
+## 34.观察者模式
+<div align="center"> <img src="images/34.observer.png" width="480px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Subject {
+    + registerObserver(Observer o) : void
+	+ removeObserver(Observer o) : void
+	+ notifyObserver() : void
+}
+Subject --> Observer
+class ConcreteSubject {
+    + registerObserver(Observer o) : void
+	+ removeObserver(Observer o) : void
+	+ notifyObserver() : void
+}
+Subject <|.. ConcreteSubject
+
+interface Observer {
+    + update() : void
+}
+
+class ConcreteObserverA {
+    + update() : void
+}
+Observer <|.. ConcreteObserverA
+
+class ConcreteObserverB {
+    + update() : void
+}
+Observer <|.. ConcreteObserverB
+
+class ConcreteObserverC {
+    + update() : void
+}
+Observer <|.. ConcreteObserverC
+@enduml
+```
+
+## 35.命令模式
+
+<div align="center"> <img src="images/35.command.png" width="520px"> </div><br>
 
 ```text
 
@@ -751,8 +829,48 @@ class Receiver {
 @enduml
 ```
 
-## 34.命令模式
+## 36.责任链模式
 
+<div align="center"> <img src="images/36.chainOfResponsibility.png" width="360px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+abstract class Handler {
+    # successor : Handler
+	+ setSuccessor(Handler successor) : void
+	+ Handler getSuccessor() : Handler
+	# abstract requestHandle(String request) : void
+}
+Handler --> Handler
+
+class ConcreteHandler {
+    # requestHandle(String request) : void
+}
+Handler <|-- ConcreteHandler
+note bottom  of ConcreteHandler
+  <b>protected void requestHandle(String request) { </b>
+  
+  <b>     if ("A".equals(request)) {</b>
+  <b>           System.out.println("具体处理类A 处理请求。。。");</b>
+  <b>     } else {</b>
+  <b>           Handler handler = super.getSuccessor();</b>
+  <b>           if (handler != null) {</b>
+  <b>                   handler.requestHandle(request);</b>
+  <b>           } else {</b>
+  <b>                   System.out.println("没有后继者处理该请求。。。");</b>
+  <b>           }</b>
+  <b>     }</b>
+  <b>} </b>
+end note
+
+@enduml
+```
+
+## 35.状态模式
+
+<div align="center"> <img src="images/34.chainOfResponsibility.png" width="360px"> </div><br>
 
 
 

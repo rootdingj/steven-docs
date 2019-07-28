@@ -635,7 +635,123 @@ end note
 
 ## 31.模板方法模式
 
-<div align="center"> <img src="images/31.templateMethod.png" width="520px"> </div><br>
+<div align="center"> <img src="images/31.templateMethod.png" width="480px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+class AbstractClass {
+    + templateMethod() : void
+    + specificMethod() : void
+    + primitiveoperationA() : void
+    + primitiveoperationB) : void
+}
+
+class ConcreteClass {
+    + primitiveoperationA() : void
+    + primitiveoperationB) : void
+}
+AbstractClass <|-- ConcreteClass
+
+note bottom  of AbstractClass
+  <b>public void templateMethod() { </b>
+  
+  <b>     specificMethod(); </b>
+  <b>     primitiveoperationA(); </b>
+  <b>     primitiveoperationA(); </b>
+  <b>} </b>
+end note
+
+@enduml
+```
+
+## 32.策略模式模式
+
+<div align="center"> <img src="images/32.strategy.png" width="480px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Strategy {
+    + strategyMethod() : void
+}
+
+class ConcreteStrategyA {
+    + strategyMethod() : void
+}
+Strategy <|.. ConcreteStrategyA
+
+class ConcreteStrategyB {
+    + strategyMethod() : void
+}
+Strategy <|.. ConcreteStrategyB
+
+class Context {
+    - strategy : Strategy
+    + setStrategy(Strategy strategy) : void
+    + operation() : void
+}
+Context o-- Strategy
+note bottom  of Context
+  <b>public void operation() { </b>
+  
+  <b>     strategy.strategyMethod(); </b>
+  <b>} </b>
+end note
+
+@enduml
+```
+
+## 33.命令模式
+
+<div align="center"> <img src="images/33.command.png" width="520px"> </div><br>
+
+```text
+
+@startuml
+skinparam classAttributeIconSize 0
+interface Command {
+    + execute() : void
+}
+
+class ConcreteCommand {
+    - receiver : Receiver
+	+ ConcreteCommand()
+    + execute() : void
+}
+Command <|.. ConcreteCommand
+Receiver <-- ConcreteCommand
+note bottom  of ConcreteCommand
+  <b>public void execute() { </b>
+  
+  <b>     receiver.action();</b>
+  <b>} </b>
+end note
+
+class Invoker {
+    - command : Command
+	+ Invoker(Command command)
+	+ setCommand(Command command) : void
+    + call() : void
+}
+Invoker  o-- Command
+note bottom  of Invoker
+  <b>public void call() { </b>
+  
+  <b>     command.execute();</b>
+  <b>} </b>
+end note
+
+class Receiver {
+    + action() : void
+}
+
+@enduml
+```
+
+## 34.命令模式
 
 
 

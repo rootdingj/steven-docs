@@ -868,9 +868,49 @@ end note
 @enduml
 ```
 
-## 35.状态模式
+## 37.中介者模式
 
-<div align="center"> <img src="images/34.chainOfResponsibility.png" width="360px"> </div><br>
+<div align="center"> <img src="images/37.mediator.png" width="480px"> </div><br>
 
+```test
+
+@startuml
+skinparam classAttributeIconSize 0
+abstract class Mediator {
+    + abstract register(Colleague colleague) : void
+    + abstract relay(Colleague colleague) : void
+}
+
+class ConcreteMediator {
+    - colleagues : List<Colleague> 
+    + register(Colleague colleague) : void
+	+ relay(Colleague colleague) : void
+}
+Mediator <|-- ConcreteMediator
+
+abstract class Colleague {
+    # mediator : Mediator
+	+ setMedium(Mediator mediator) : void
+	+ abstract receive() : void
+	+ abstract send() : void
+}
+
+Mediator <-- Colleague
+
+class ConcreteColleagueA {
+    + receive() : void
+	+ send() : void
+}
+Colleague <|-- ConcreteColleagueA
+class ConcreteColleagueB {
+    + receive() : void
+	+ send() : void
+}
+Colleague <|-- ConcreteColleagueB
+ConcreteColleagueA  <-- ConcreteMediator
+ConcreteColleagueB  <-- ConcreteMediator
+
+@enduml
+```
 
 

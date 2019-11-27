@@ -6,7 +6,7 @@ Docker笔记
 ## 1.1、什么是 Docker
 Linux 容器是一种虚拟化技术，与虚拟机不同的是，他不是模拟一个完整的操作系统，而是对进程进行隔离。或者说，在正常进程的外面套了一个保护层。对于容器里面的进程来说，它接触到的各种资源都是虚拟的，从而实现与底层系统的隔离。
 
-Docker 在容器的基础上，进行了进一步的封装，从文件系统、网络互联到进程隔离等，他提供简单易用的容器使用接口。Docker 将应用程序与该程序的依赖，打包在一个文件里面。运行这个文件，就会生成一个虚拟容器。程序在这个虚拟容器里运行，就好像在真实的物理机上运行一样。
+Docker 在容器的基础上，进行了进一步的封装，从文件系统、网络互联到进程隔离等，他提供简单易用的容器使用接口。Docker 将应用程序与该程序的依赖，打包在一个镜像文件里。运行这个文件，就会生成一个虚拟容器。程序在这个虚拟容器里运行，就好像在真实的物理机上运行一样。
 
 ## 1.2、为什么要用 Docker
 由于容器是进程级别的，相比虚拟机有很多优势：
@@ -27,17 +27,16 @@ Docker 主要用途：
 Docker 镜像是保存运行时所需程序、库、资源、配置、参数等的静态文件，它不包含任何动态数据，其内容在构建之后也不会被改变。
 
 #### 分层存储
-镜像包含操作系统完整的 root	文件系统，Docker 在设计时充分利用	**UnionFS 的技术**，将其设计为**分层存储**的架构。Docker 镜像并不是像 ISO
-那样的打包文件，镜像是一个虚拟的概念，**它由多层文件系统组成**。
+镜像包含操作系统完整的 root	文件系统，Docker 在设计时充分利用	**UnionFS 的技术**，将其设计为**分层存储**的架构。Docker 镜像并不是像 ISO 那样的打包文件，镜像是一个虚拟的概念，**它由多层文件系统组成**。
 
-镜像构建时，会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后 一层上的任何改变只发生在自己这一层。
+镜像构建时，会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。
 
 在构建镜像的时候，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉，以免镜像后期变的庞杂，难以维护。
 
 ### 1.3.1、容器（Container）
 镜像（``Image``）和容器（``Container``）的关系，就像是面向对象程序设计中的类和实例一样，**镜像是静态的定义，容器是镜像运行时的实体**。容器可以被创建、启动、停止、删 除、暂停等。
 
-容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的命名空间。因此容器可以拥有自己的 root	文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID	空间。容器内的进程是运行在一个隔离的环境里，使用起来，就好像是在一个独立于宿主的系统下操作一样。
+容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的命名空间。因此容器可以拥有自己的 root	文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID	空间。容器内的进程是运行在一个隔离的环境里，使用起来就好像是在一个独立于宿主的系统下操作一样。
 
 每一个容器运行时，会以镜像为基础层，在其上创建一个为容器运行时读写而准备的容器存储层。容器存储层的生存周期和容器一样，容器消亡时，容器存储层也随之消亡，并且缓存在容器存储层的数据也会随之清空。
 
@@ -74,7 +73,7 @@ del hyper-v.txt
 
 Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL
 ```
-- 以管理员身份执行` `hyperv.cmd`` 文件。如果系统要你重启，便重启。
+- 以管理员身份执行 hyperv.cmd 文件。如果系统要你重启，便重启。
 
 - 在控制面板->程序和功能->启用或关闭 Windows 功能打开 Hyper-V。
 
@@ -115,9 +114,47 @@ REG ADD "HKEY_LOCAL_MACHINE\software\Microsoft\Windows NT\CurrentVersion" /v Edi
   "experimental": false
 }
 ```
+
+执行命令： ``docker info`` 查看加速器配置是否生效，若看到如下内容，说明配置成功：
+```text
+ Registry Mirrors:
+      https://naljryvl.mirror.aliyuncs.com/
+```
+
 相关配置参数可参考：[daemon-configuration-file](https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file)
 
 ## 2.2、阿里云 Centos 安装 Docker
+
+# 3、使用 Docker 镜像
+
+## 3.1、从仓库获取镜像
+### 获取
+从 Docker	镜像仓库获取镜像的命令是 ``docker pull``。其命令格式为：
+```text
+docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]
+```
+例如：
+```text
+PS C:\Users\dj673\Desktop> docker pull ubuntu:16.04
+16.04: Pulling from library/ubuntu
+e80174c8b43b: Pull complete                                       d1072db285cc: Pull complete                                       858453671e67: Pull complete                                       3d07b1124f98: Pull complete                                       Digest:sha256:e1fcd1f4dc443415d791bc1e97e93d3d595156005bce2b529f6b64584c9f2f4d
+Status: Downloaded newer image for ubuntu:16.04
+docker.io/library/ubuntu:16.04
+```
+
+使用 ``docker	pull --help``	命令查看具体选项。
+
+### 运行
+``docker run	-it	--rm	ubuntu:16.04 bash``
+
+### 退出
+``exit``
+
+
+## 3.2、管理本机镜像
+
+## 3.3、镜像实现的基本原理
+
 
 
 

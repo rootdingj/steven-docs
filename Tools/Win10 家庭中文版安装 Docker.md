@@ -26,7 +26,7 @@ REG ADD "HKEY_LOCAL_MACHINE\software\Microsoft\Windows NT\CurrentVersion" /v Edi
 ## 3 下载 Docker for Windows
 - [Docker for Windows](https://docs.docker.com/docker-for-windows/install/) 支持 64 位版本的 Windows 10 Pro，且必须开启 Hyper-V。
 
-- 点击以下链接下载 Stable 或 Edge 版本的 Docker	for	Windows。
+- 点击以下链接下载 Stable 或 Edge 版本的 Docker for Windows。
 下载好之后双击 Docker for Windows Installer.exe	开始安装。
 
 - Docker 安装完成后，执行 cmd 命令：docker version 确认安装成功。

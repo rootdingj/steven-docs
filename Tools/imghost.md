@@ -100,4 +100,4 @@ PicGo 目前的默认图床中没有 Gitee，需要手动搜索并安装插件�
 
 ![image-20220220011111395](https://gitee.com/rootdingj/pichost/raw/master/blog/2022/02/image-20220220010815249.png)
 
-验证成功后，对着正在写的博客——《Gitee+PicGo+Typora 让你的写作更丝滑》点击鼠标右键>>上传图片，把博客中所有的图片上传到 Gitee 图床，真的丝滑。
+验证成功后，拿正在写的博客——《Gitee+PicGo+Typora 让你的写作更丝滑》来试验一下吧，在图片上点击鼠标右键>>再点击【上传图片】，把博客中的图片上传到 Gitee 图床，丝滑！！！

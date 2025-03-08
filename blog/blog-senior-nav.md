@@ -74,6 +74,166 @@ Markdown 博客将图片和博文放在 GitHub 的同一个仓库中，然后采
       background: https://i.loli.net/2020/05/19/aKOcLiyPl2JQdFD.png
     ```
 
+## 进阶配置
+
+### Gulp压缩
+
+- 全局安装gulp
+
+  ```
+  npm install --global gulp-cli
+  npm install gulp -g
+  gulp -v
+  ```
+
+- 在Hexo根目录下，安装gulp压缩插件
+
+  ```
+  // 压缩html
+  npm install gulp-htmlclean --save-dev
+  npm install --save gulp-html-minifier-terser
+  
+  // 压缩css
+  npm install gulp-clean-css --save-dev
+  
+  // 压缩js
+  npm install --save-dev gulp-uglify
+  npm install --save-dev gulp-babel @babel/core @babel/preset-env
+  
+  // 压缩图片
+  npm install --save-dev gulp-imagemin
+  ```
+
+- 在 Hexo 站点下新建`gulpfile.js`文件，文件内容如下：
+
+  ```
+  var gulp = require('gulp');
+  var minifycss = require('gulp-minify-css');
+  var uglify = require('gulp-uglify');
+  var htmlmin = require('gulp-htmlmin');
+  var htmlclean = require('gulp-htmlclean');
+  // 压缩css
+  gulp.task('minify-css', function() {
+      return gulp.src('./public/**/*.css')
+          .pipe(minifycss({
+              compatibility: 'ie8'
+          }))
+          .pipe(gulp.dest('./public'));
+  });
+  // 压缩js
+  gulp.task('minify-js', function() {
+      return gulp.src('./public/js/**/*.js')
+          .pipe(uglify())
+          .pipe(gulp.dest('./public'));
+  });
+  
+  // 压缩 public 目录 html文件
+  gulp.task('minify-html', function() {
+      return gulp.src('./public/**/*.html')
+        .pipe(htmlclean())
+        .pipe(htmlmin({
+             removeComments: true,
+             minifyJS: true,
+             minifyCSS: true,
+             minifyURLs: true,
+        }))
+        .pipe(gulp.dest('./public'))
+    });
+  
+  // 默认任务
+  gulp.task('default', gulp.parallel(
+      'minify-css','minify-js','minify-html'
+  ));
+  ```
+
+- 静态资源压缩，只需要每次在执行 `generate` 命令后执行 `gulp` 就可以实现对静态资源的压缩
+
+  ```
+  hexo g
+  gulp
+  ```
+
+### 添加来必力评论系统
+
+_config.butterfly.yml 配置文件中，修改 comments 的 use 配置项为 Livere，然后在 livere 配置项中，添加你在来必力网站注册的ID即可
+
+```
+comments:
+  # Up to two comments system, the first will be shown as default
+  # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus
+  use: 
+    Livere   ## 使用来必力
+    # Valine,Disqus
+  text: true # Display the comment name next to the button
+  # lazyload: The comment system will be load when comment element enters the browser's viewport.
+  # If you set it to true, the comment count will be invalid
+  lazyload: false
+  count: false # Display comment count in post's top_img
+  card_post_count: false # Display comment count in Home Page
+  
+  
+# livere (來必力)
+# https://www.livere.com/
+livere:
+  uid: XXXX== ## uid:后面有个空格
+```
+
+### 插入代码自定义样式
+
+_config.butterfly.yml 配置文件中，找到 inject 配置项，配置想要的样式文件，相关的样式可以去github上找，或者按照自己想要的去配置。
+
+```
+# Inject
+# Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
+# 插入代码到头部 </head> 之前 和 底部 </body> 之前
+inject:
+  head:
+    - <link rel="stylesheet" href="/css/bg.css">
+    - <link rel="stylesheet" href="/css/style.css">
+  bottom:
+    # - <script src="xxxx"></script>
+```
+
+### 备案信息实现
+
+_config.butterfly.yml 配置文件中，找到 custom_text 配置项，类似配置如下：
+
+```
+<div id="footer-wrap">
+	<div class="copyright">
+		©2019 - 2022 By steven ting
+	</div>
+	<div class="footer_custom_text">
+		<span style="color:#999" onclick="window.open('https://beian.miit.gov.cn/#/Integrated/index/')">
+			<a class="footer-a">
+				渝 ICP 备 19004608 号
+			</a>
+		</span>
+		<br>
+		<span style="color:#999" onclick="window.open('http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50023502000331')">
+			<a class="footer-a">
+				<img class="upy entered loaded" align="absmiddle" src="https://cdn.jsdelivr.net/gh/constown/HexoStaticFile/img/20200831161110.png"
+				data-lazy-src="https://cdn.jsdelivr.net/gh/constown/HexoStaticFile/img/20200831161110.png"
+				data-ll-status="loaded">
+				渝公网安备 50023502000331 号
+			</a>
+		</span>
+	</div>
+</div>
+```
+
+
+
+### 博客SEO优化引擎收录
+
+
+
+### 双线部署与CDN加速
+
+
+
+
+
 # 参考
 
 - [文档| Hexo](https://hexo.io/zh-cn/docs/)
